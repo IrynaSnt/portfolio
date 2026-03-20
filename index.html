@@ -34,7 +34,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(248,244,238,
 .role-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
 .role-pill{font-size:11px;padding:5px 14px;border:1px solid rgba(45,106,79,0.35);color:var(--fmid);background:rgba(45,106,79,0.06);font-weight:500;letter-spacing:0.04em}
 .hero-photo-wrap{display:flex;flex-direction:column;align-items:flex-end}
-.hero-photo{width:100%;max-width:520px;aspect-ratio:3/4;border-radius:160px 160px 20px 20px;overflow:hidden;background:var(--forest)}
+.hero-photo{width:100%;max-width:380px;aspect-ratio:3/4;border-radius:160px 160px 20px 20px;overflow:hidden;background:var(--forest)}
 .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center 5%}
 .hero-location{margin-top:12px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:500;text-align:right}
 /* MAP - 30% of viewport */
@@ -82,9 +82,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(248,244,238,
 .aside-quote{background:var(--forest);padding:28px 24px;border-radius:8px}
 .aq-text{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:rgba(255,255,255,0.8);line-height:1.65}
 .aq-text em{color:var(--mint);font-style:normal}
-/* STATS */
-#stats{background:var(--forest);padding:20px 60px}
-.stats-grid{display:grid;grid-template-columns:repeat(5,1fr)}
+/* STATS - FULL WIDTH UNDERLINE BAR */
+#stats{background:var(--forest);padding:20px 0;margin-top:0;width:100vw;position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw}
+.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);max-width:1200px;margin:0 auto;padding:0 60px}
 .stat-cell{padding:14px 24px;border-right:1px solid rgba(255,255,255,0.08)}
 .stat-cell:last-child{border-right:none}
 .s-num{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--mint);line-height:1;margin-bottom:4px}
@@ -295,12 +295,12 @@ footer{background:#0f2418;padding:28px 60px;display:flex;justify-content:space-b
         <path d="M476,186 L548,180 L568,198 L568,234 L548,250 L520,252 L494,240 L476,220 L472,200Z" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/>
         <polyline points="318,58 138,54 156,134 132,82 534,59 434,112" fill="none" stroke="rgba(200,169,106,0.5)" stroke-width="1.3" stroke-dasharray="5 4"/>
       </svg>
-      <div class="map-pin" style="left:59%;top:21%" onclick="tp(this)"><div class="pin-dot"></div><div class="tip"><span class="tip-flag">&#127482;&#127462;</span><div class="tip-co">Ukraine</div><div class="tip-th">Foundation</div><div class="tip-tx">Where I learned that <b>resilience isn't a skill — it's a default setting.</b></div></div></div>
-      <div class="map-pin" style="left:23%;top:19%" onclick="tp(this)"><div class="pin-dot"></div><div class="tip"><span class="tip-flag">&#127464;&#127462;</span><div class="tip-co">Canada</div><div class="tip-th">Perspective</div><div class="tip-tx">Where I learned that <b>being an outsider is a superpower</b> — you notice what locals stopped seeing.</div></div></div>
-      <div class="map-pin" style="left:26%;top:48%" onclick="tp(this)"><div class="pin-dot"></div><div class="tip"><span class="tip-flag">&#127464;&#127479;</span><div class="tip-co">Costa Rica</div><div class="tip-th">Patience</div><div class="tip-tx">Where I learned that <b>trust is built over meals, not meetings.</b> The slowest — and most useful — sales lesson.</div></div></div>
-      <div class="map-pin" style="left:21%;top:29%" onclick="tp(this)"><div class="pin-dot"></div><div class="tip"><span class="tip-flag">&#127482;&#127480;</span><div class="tip-co">United States</div><div class="tip-th">Hustle</div><div class="tip-tx">Knocked doors in cities I'd never heard of. Discovered that <b>no almost always means not yet.</b></div></div></div>
-      <div class="map-pin flip" style="left:89%;top:21%" onclick="tp(this)"><div class="pin-dot"></div><div class="tip"><span class="tip-flag">&#127471;&#127477;</span><div class="tip-co">Japan · Tokyo</div><div class="tip-th">Precision</div><div class="tip-tx">Where I learned to <b>listen more than I speak.</b> Silence is where real understanding lives.</div></div></div>
-      <div class="map-pin curr" style="left:72%;top:40%" onclick="tp(this)"><div class="pin-dot"></div><div class="tip"><span class="tip-flag">&#127470;&#127475;</span><div class="tip-co">India · Hyderabad</div><div class="tip-th">Ambition ← right now</div><div class="tip-tx">Where ambition is the baseline. <b>Scale changes how you think about everything.</b></div></div></div>
+      <div class="map-pin" style="left:10%;top:20%" onclick="tp(this)"><div class="pin-dot"></div><div class="tip"><span class="tip-flag">🇺🇦</span><div class="tip-co">Ukraine</div><div class="tip-th">Foundation</div><div class="tip-tx">Where I learned that <b>resilience isn't a skill — it's a default setting.</b></div></div></div>
+      <div class="map-pin" style="left:23%;top:35%" onclick="tp(this)"><div class="pin-dot"></div><div class="tip"><span class="tip-flag">🇨🇦</span><div class="tip-co">Canada</div><div class="tip-th">Perspective</div><div class="tip-tx">Where I learned that <b>being an outsider is a superpower</b> — you notice what locals stopped seeing.</div></div></div>
+      <div class="map-pin" style="left:38%;top:52%" onclick="tp(this)"><div class="pin-dot"></div><div class="tip"><span class="tip-flag">🇨🇷</span><div class="tip-co">Costa Rica</div><div class="tip-th">Patience</div><div class="tip-tx">Where I learned that <b>trust is built over meals, not meetings.</b> The slowest — and most useful — sales lesson.</div></div></div>
+      <div class="map-pin" style="left:52%;top:28%" onclick="tp(this)"><div class="pin-dot"></div><div class="tip"><span class="tip-flag">🇺🇸</span><div class="tip-co">United States</div><div class="tip-th">Hustle</div><div class="tip-tx">Knocked doors in cities I'd never heard of. Discovered that <b>no almost always means not yet.</b></div></div></div>
+      <div class="map-pin flip" style="left:78%;top:22%" onclick="tp(this)"><div class="pin-dot"></div><div class="tip"><span class="tip-flag">🇯🇵</span><div class="tip-co">Japan · Tokyo</div><div class="tip-th">Precision</div><div class="tip-tx">Where I learned to <b>listen more than I speak.</b> Silence is where real understanding lives.</div></div></div>
+      <div class="map-pin curr" style="left:90%;top:42%" onclick="tp(this)"><div class="pin-dot"></div><div class="tip"><span class="tip-flag">🇮🇳</span><div class="tip-co">India · Hyderabad</div><div class="tip-th">Ambition ← right now</div><div class="tip-tx">Where ambition is the baseline. <b>Scale changes how you think about everything.</b></div></div></div>
     </div>
   </div>
 </section>
@@ -390,8 +390,8 @@ footer{background:#0f2418;padding:28px 60px;display:flex;justify-content:space-b
     <p class="connect-sub">If you're building something in education, sales, or business development and want someone who brings cross-cultural fluency, genuine hustle, and a track record across four companies - I'd love to hear from you.</p>
   </div>
   <div class="connect-right">
-    <a class="connect-card" href="/cdn-cgi/l/email-protection#9df4efe4f3fcb3eef3e4e9f4e8f6dde8f3f4b3f0f4f3f8efebfcb3f8f9e8">
-      <div><div class="cc-label">Email</div><div class="cc-val"><span class="__cf_email__" data-cfemail="86eff4ffe8e7a8f5e8fff2eff3edc6f3e8efa8ebefe8e3f4f0e7a8e3e2f3">[email&#160;protected]</span></div></div>
+    <a class="connect-card" href="mailto:iryna.snytiuk@uni.minerva.edu">
+      <div><div class="cc-label">Email</div><div class="cc-val">iryna.snytiuk@uni.minerva.edu</div></div>
       <span class="cc-arrow">&#8594;</span>
     </a>
     <a class="connect-card" href="https://linkedin.com/in/irynasnytiuk" target="_blank">
