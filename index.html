@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iryna Snytiuk — Business Development & Sales</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+:root{
+  --ivory:#F8F4EE;--white:#FFFFFF;--surface:#F2EDE4;
+  --forest:#1b4332;--fmid:#2d6a4f;--flight:#74c69d;--mint:#95d5b2;
+  --gold:#c8a96a;--dark:#1a1a1a;--muted:#6b6560;--border:#e0d9cf;
+}
+body{background:var(--ivory);color:var(--dark);font-family:'Inter',sans-serif;font-size:15px;line-height:1.7;overflow-x:hidden}
+
+/* ══ NAV ══ */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(248,244,238,0.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:18px 60px;display:flex;justify-content:space-between;align-items:center}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:300;color:var(--dark);letter-spacing:0.06em;text-decoration:none}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s;font-weight:500}
+.nav-links a:hover{color:var(--forest)}
+
+/* ══ HERO ══ */
+#home{min-height:100vh;padding:100px 60px 60px;display:grid;grid-template-columns:1fr 1.05fr;gap:60px;align-items:center;background:var(--ivory)}
+.hero-photo-wrap{position:relative;display:flex;flex-direction:column;align-items:flex-start}
+.hero-photo{width:100%;max-width:390px;aspect-ratio:3/4;border-radius:200px 200px 24px 24px;overflow:hidden;background:var(--surface)}
+.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center 8%}
+.hero-location{margin-top:14px;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:500}
+
+.hero-text{display:flex;flex-direction:column;gap:22px}
+.hero-eyebrow{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--fmid);font-weight:500}
+.hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(52px,6.5vw,84px);font-weight:300;line-height:1.05;letter-spacing:-0.02em}
+.hero-name em{display:block;font-style:italic;color:var(--fmid)}
+.hero-tagline{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--muted);line-height:1.65;max-width:440px;border-left:3px solid var(--flight);padding-left:18px}
+.hero-tagline b{font-style:normal;color:var(--fmid);font-weight:400}
+
+/* Globe */
+.globe-label{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--fmid);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.map-box{background:var(--forest);border-radius:12px;padding:18px 18px 12px}
+.map-wrap{position:relative;width:100%;padding-top:47%;border-radius:8px;overflow:visible}
+.map-svg{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;overflow:hidden}
+
+.map-pin{position:absolute;transform:translate(-50%,-100%);cursor:pointer;z-index:10}
+.pin-dot{width:11px;height:11px;border-radius:50%;background:var(--gold);border:2px solid rgba(255,255,255,0.85);transition:transform .2s;animation:ppulse 2.8s infinite}
+.map-pin:hover .pin-dot,.map-pin.open .pin-dot{transform:scale(1.6);animation:none;box-shadow:0 0 0 6px rgba(200,169,106,0.28)}
+.map-pin.curr .pin-dot{background:var(--mint);animation:cpulse 2s infinite}
+@keyframes ppulse{0%,100%{box-shadow:0 0 0 0 rgba(200,169,106,0.5)}60%{box-shadow:0 0 0 7px rgba(200,169,106,0)}}
+@keyframes cpulse{0%,100%{box-shadow:0 0 0 0 rgba(149,213,178,0.6)}60%{box-shadow:0 0 0 9px rgba(149,213,178,0)}}
+
+.tip{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(6px);background:#fff;border-radius:10px;padding:12px 14px;min-width:170px;max-width:220px;box-shadow:0 8px 28px rgba(0,0,0,0.16);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;border:0.5px solid rgba(0,0,0,0.07);z-index:50}
+.map-pin.open .tip{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+.tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#fff}
+.tip-flag{font-size:15px;margin-bottom:3px;display:block}
+.tip-co{font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:1px}
+.tip-th{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fmid);font-weight:500;margin-bottom:5px}
+.tip-tx{font-size:11px;color:#6b6560;line-height:1.5;font-style:italic}
+.tip-tx b{font-style:normal;color:#1a1a1a;font-weight:500}
+.map-pin.flip .tip{left:auto;right:-10px;transform:translateY(6px)}
+.map-pin.flip.open .tip{transform:translateY(0)}
+.map-pin.flip .tip::after{left:auto;right:20px;transform:none}
+.map-legend{margin-top:10px;display:flex;gap:16px;align-items:center}
+.leg{display:flex;align-items:center;gap:5px}
+.leg-dot{width:7px;height:7px;border-radius:50%}
+.leg-lbl{font-size:10px;color:rgba(255,255,255,0.45)}
+.leg-hint{margin-left:auto;font-size:10px;color:rgba(255,255,255,0.3)}
+
+/* ══ SECTION SHARED ══ */
+.section-wrap{padding:88px 60px}
+.sec-eyebrow{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--fmid);font-weight:500;margin-bottom:14px}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4vw,52px);font-weight:300;line-height:1.15;margin-bottom:40px}
+.sec-title em{font-style:italic;color:var(--fmid)}
+.divider{height:1px;background:var(--border);margin:0 60px}
+
+/* ══ ABOUT ══ */
+#about{background:var(--white)}
+.about-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:72px;align-items:start}
+.bio-p{font-size:15px;color:var(--muted);line-height:1.88;margin-bottom:18px}
+.bio-p b{color:var(--dark);font-weight:500}
+.about-aside{}
+.chip-label{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--fmid);font-weight:500;margin-bottom:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.chip{font-size:13px;padding:7px 16px;border-radius:999px;border:1px solid var(--border);color:var(--muted);background:var(--ivory);transition:all .2s;cursor:default}
+.chip:hover{border-color:var(--fmid);color:var(--fmid)}
+.chip.c{background:#e8f4ef;color:#1a5c3a;border-color:rgba(45,106,79,0.3)}
+.aside-quote{background:var(--forest);padding:28px 24px;border-radius:8px}
+.aq-text{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:rgba(255,255,255,0.8);line-height:1.65}
+.aq-text em{color:var(--mint);font-style:normal}
+
+/* ══ STATS ══ */
+#stats{background:var(--forest);padding:64px 60px}
+.stats-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+.stat-cell{padding:20px 24px;border-right:1px solid rgba(255,255,255,0.08)}
+.stat-cell:last-child{border-right:none}
+.s-num{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:var(--mint);line-height:1;margin-bottom:8px}
+.s-lbl{font-size:13px;color:rgba(255,255,255,0.7);line-height:1.4;margin-bottom:4px}
+.s-note{font-size:11px;color:rgba(255,255,255,0.35);line-height:1.55;font-style:italic}
+
+/* ══ EXPERIENCE (embedded) ══ */
+#experience{background:var(--ivory);padding:0}
+.exp-section-header{padding:72px 60px 0}
+
+/* Reuse experience styles */
+.filter-bar{padding:24px 60px;display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--border);background:var(--white)}
+.fb{padding:7px 18px;border:1.5px solid var(--border);border-radius:0;font-size:12px;color:var(--muted);background:transparent;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;font-weight:500}
+.fb:hover{border-color:var(--fmid);color:var(--fmid)}
+.fb.act{background:var(--forest);border-color:var(--forest);color:#fff}
+.exp-grid{display:flex;flex-direction:column}
+.exp-card{background:var(--white);border-bottom:1px solid var(--border);border-left:4px solid transparent;transition:border-left-color .2s}
+.exp-card:hover{border-left-color:var(--fmid)}
+.exp-card.open{border-left-color:var(--forest)}
+.exp-card.hidden{display:none}
+.card-trigger{padding:28px 60px 24px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;cursor:pointer;user-select:none}
+.co-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.co-badge{width:30px;height:30px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;letter-spacing:0.05em}
+.b-adobe{background:#FF0000;color:#fff}.b-started{background:var(--forest);color:#95d5b2}.b-forbes{background:#000;color:#fff}.b-sw{background:#c0392b;color:#fff}.b-prjctr{background:#FF4500;color:#fff}.b-nasa{background:#0b3d91;color:#fff}
+.co-name{font-size:15px;font-weight:500;color:var(--dark)}
+.co-ext{font-size:11px;color:var(--fmid);text-decoration:none;opacity:0.8;padding:2px 8px;border:1px solid rgba(45,106,79,0.3);border-radius:2px;transition:all .2s}
+.co-ext:hover{opacity:1;background:rgba(45,106,79,0.06)}
+.type-pill{font-size:10px;padding:3px 10px;font-weight:500;letter-spacing:0.06em;border-radius:2px}
+.tp-sales{background:#e8f4ef;color:#1b4332}.tp-research{background:#fef3e2;color:#854f0b}.tp-product{background:#e8f0fb;color:#1a3a8a}.tp-community{background:#f0e8fb;color:#5a1a8a}.tp-education{background:#fde8e8;color:#8a1a1a}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;line-height:1.3;margin-bottom:6px}
+.card-meta{font-size:12px;color:var(--muted);display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.meta-sep{color:var(--border)}
+.ct-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.impact-box{background:var(--surface);border:1px solid var(--border);padding:10px 16px;text-align:right}
+.imp-num{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--forest);line-height:1}
+.imp-lbl{font-size:10px;color:var(--muted);margin-top:2px}
+.expand-hint{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--fmid);font-weight:500;opacity:0.6;transition:opacity .2s;letter-spacing:0.05em}
+.exp-card.open .expand-hint,.exp-card:hover .expand-hint{opacity:1}
+.expand-icon{width:22px;height:22px;border:1.5px solid var(--fmid);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:300;color:var(--fmid);transition:all .2s;flex-shrink:0;line-height:1}
+.exp-card.open .expand-icon{background:var(--forest);border-color:var(--forest);color:#fff;transform:rotate(45deg)}
+.card-body{display:none;background:var(--surface);border-top:1px solid var(--border)}
+.exp-card.open .card-body{display:block}
+.body-inner{padding:32px 60px;display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.b-section{}
+.bs-label{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--fmid);font-weight:500;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.bs-text{font-size:13px;color:var(--muted);line-height:1.78}
+.bs-text b{color:var(--dark);font-weight:500}
+.bs-text a{color:var(--fmid);text-decoration:none;font-weight:500}
+.bs-text a:hover{text-decoration:underline}
+.impact-ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.impact-ul li{display:flex;gap:10px;font-size:13px;color:var(--muted);line-height:1.55;align-items:flex-start}
+.impact-ul li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--fmid);flex-shrink:0;margin-top:6px}
+.impact-ul li b{color:var(--dark);font-weight:500}
+.impact-ul li a{color:var(--fmid);font-weight:500;text-decoration:none}
+.impact-ul li a:hover{text-decoration:underline}
+.card-footer{padding:16px 60px;background:var(--white);border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.sk-chip{font-size:11px;padding:4px 12px;background:var(--ivory);border:1px solid var(--border);color:var(--muted)}
+.view-btn{margin-left:auto;font-size:11px;padding:7px 18px;background:var(--forest);color:#fff;border:none;font-family:'Inter',sans-serif;font-weight:500;cursor:pointer;text-decoration:none;letter-spacing:0.06em;transition:background .2s}
+.view-btn:hover{background:var(--fmid)}
+
+/* Skills under experience */
+.skills-wrap{padding:60px 60px;background:var(--white);border-top:2px solid var(--forest)}
+.sk-head{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;margin-bottom:36px}
+.sk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.sk-block{background:var(--white);padding:28px 24px}
+.sk-lbl{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--fmid);font-weight:500;margin-bottom:14px}
+.sk-tags{display:flex;flex-wrap:wrap;gap:7px}
+.sk-tag{font-size:12px;padding:5px 12px;background:var(--ivory);border:1px solid var(--border);color:var(--muted)}
+.lang-tag{font-size:13px;padding:6px 14px;background:var(--ivory);border:1px solid var(--border);color:var(--muted);display:flex;align-items:center;gap:6px}
+
+/* ══ CONNECT ══ */
+#connect{background:var(--forest);padding:88px 60px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.connect-left{}
+.connect-title{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,4vw,52px);font-weight:300;color:#fff;line-height:1.2;margin-bottom:18px}
+.connect-title em{font-style:italic;color:var(--mint)}
+.connect-sub{font-size:15px;color:rgba(255,255,255,0.55);line-height:1.75;max-width:420px}
+.connect-right{display:flex;flex-direction:column;gap:16px}
+.connect-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);padding:24px 28px;border-radius:4px;text-decoration:none;transition:background .2s;display:flex;align-items:center;justify-content:space-between}
+.connect-card:hover{background:rgba(255,255,255,0.1)}
+.cc-label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:4px;font-weight:500}
+.cc-val{font-size:16px;color:#fff;font-weight:400}
+.cc-arrow{font-size:20px;color:var(--mint);opacity:0.7}
+
+/* footer */
+footer{background:#0f2418;padding:28px 60px;display:flex;justify-content:space-between;align-items:center}
+.ft-name{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:rgba(255,255,255,0.35)}
+.ft-note{font-size:11px;color:rgba(255,255,255,0.2);letter-spacing:0.05em}
+
+/* Responsive */
+@media(max-width:900px){
+  nav{padding:16px 24px}
+  .nav-links{gap:18px}
+  #home{grid-template-columns:1fr;padding:88px 24px 56px}
+  .hero-photo{max-width:260px}
+  .section-wrap,.exp-section-header{padding-left:24px;padding-right:24px}
+  .about-grid{grid-template-columns:1fr;gap:36px}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .stat-cell{border-right:none;border-bottom:1px solid rgba(255,255,255,0.08)}
+  .filter-bar,.card-trigger,.body-inner,.card-footer,.skills-wrap{padding-left:24px;padding-right:24px}
+  .body-inner{grid-template-columns:1fr}
+  .ct-right{display:none}
+  .sk-grid{grid-template-columns:1fr}
+  #connect{grid-template-columns:1fr;padding:56px 24px}
+  footer{padding:24px;flex-direction:column;gap:8px;text-align:center}
+  .divider{margin:0 24px}
+}
+@media(max-width:580px){
+  .nav-links{display:none}
+  .stats-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <a href="#home" class="nav-logo">Iryna Snytiuk</a>
+  <ul class="nav-links">
+    <li><a href="#about">About Me</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#connect">Let's Connect</a></li>
+  </ul>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section id="home">
+  <div class="hero-photo-wrap">
+    <!-- Replace src with your photo file path -->
+    <div class="hero-photo">
+      <img src="iryna_photo.jpg" alt="Iryna Snytiuk"
+           onerror="this.parentElement.style.background='#2d6a4f'"/>
+    </div>
+    <div class="hero-location">Currently · Hyderabad, India</div>
+  </div>
+
+  <div class="hero-text">
+    <div class="hero-eyebrow">Business &amp; Cognitive Science · Minerva University '26</div>
+    <h1 class="hero-name">Iryna<br><em>Snytiuk</em></h1>
+    <p class="hero-tagline">
+      "Six countries taught me the same thing: people buy from people they trust.
+      I just learned to build that trust in <b>six different languages.</b>"
+    </p>
+
+    <div>
+      <div class="globe-label">🌍 Six countries · one journey — click the pins</div>
+      <div class="map-box">
+        <div class="map-wrap" id="mapWrap">
+          <svg class="map-svg" viewBox="0 0 600 282" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <pattern id="dots" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
+                <circle cx="6" cy="6" r="0.65" fill="rgba(255,255,255,0.09)"/>
+              </pattern>
+            </defs>
+            <rect width="600" height="282" fill="#0f2418"/>
+            <rect width="600" height="282" fill="url(#dots)"/>
+            <!-- N America -->
+            <path d="M72,36 L185,30 L202,48 L218,78 L208,118 L188,140 L162,156 L144,174 L132,188 L120,182 L106,158 L94,130 L80,98 L68,64Z" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.09)" stroke-width="0.5"/>
+            <!-- C America -->
+            <path d="M144,174 L156,176 L162,188 L156,194 L148,188 L144,178Z" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/>
+            <!-- S America -->
+            <path d="M152,194 L195,190 L218,208 L222,250 L208,270 L188,270 L168,256 L156,230 L150,208Z" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/>
+            <!-- Europe -->
+            <path d="M286,28 L342,22 L364,36 L372,52 L356,68 L338,72 L316,76 L296,70 L278,58 L274,40Z" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.11)" stroke-width="0.5"/>
+            <!-- Africa -->
+            <path d="M292,80 L352,74 L378,86 L386,116 L380,156 L368,192 L350,218 L330,228 L312,224 L296,208 L284,180 L278,146 L278,110 L284,90Z" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/>
+            <!-- Asia -->
+            <path d="M368,22 L498,16 L544,34 L546,60 L528,80 L508,90 L476,86 L448,92 L426,100 L406,94 L388,78 L374,64 L362,48Z" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.09)" stroke-width="0.5"/>
+            <!-- India -->
+            <path d="M416,94 L450,94 L458,110 L454,134 L440,148 L426,144 L414,126 L412,108Z" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.13)" stroke-width="0.5"/>
+            <!-- Japan -->
+            <path d="M522,52 L540,46 L548,54 L542,66 L528,64Z" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.14)" stroke-width="0.5"/>
+            <!-- Australia -->
+            <path d="M476,186 L548,180 L568,198 L568,234 L548,250 L520,252 L494,240 L476,220 L472,200Z" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="0.5"/>
+            <!-- Journey path -->
+            <polyline points="318,58 138,54 156,134 132,82 534,59 434,112"
+              fill="none" stroke="rgba(200,169,106,0.5)" stroke-width="1.3" stroke-dasharray="5 4"/>
+          </svg>
+
+          <!-- Ukraine 59%,21% -->
+          <div class="map-pin" style="left:59%;top:21%" onclick="tp(this)">
+            <div class="pin-dot"></div>
+            <div class="tip">
+              <span class="tip-flag">🇺🇦</span>
+              <div class="tip-co">Ukraine</div>
+              <div class="tip-th">Foundation</div>
+              <div class="tip-tx">Where I learned that <b>resilience isn't a skill — it's a default setting.</b></div>
+            </div>
+          </div>
+          <!-- Canada 23%,19% -->
+          <div class="map-pin" style="left:23%;top:19%" onclick="tp(this)">
+            <div class="pin-dot"></div>
+            <div class="tip">
+              <span class="tip-flag">🇨🇦</span>
+              <div class="tip-co">Canada</div>
+              <div class="tip-th">Perspective</div>
+              <div class="tip-tx">Where I learned that <b>being an outsider is a superpower</b> — you notice what locals stopped seeing.</div>
+            </div>
+          </div>
+          <!-- Costa Rica 26%,48% -->
+          <div class="map-pin" style="left:26%;top:48%" onclick="tp(this)">
+            <div class="pin-dot"></div>
+            <div class="tip">
+              <span class="tip-flag">🇨🇷</span>
+              <div class="tip-co">Costa Rica</div>
+              <div class="tip-th">Patience</div>
+              <div class="tip-tx">Where I learned that <b>trust is built over meals, not meetings.</b> The slowest — and most useful — sales lesson.</div>
+            </div>
+          </div>
+          <!-- USA 21%,29% -->
+          <div class="map-pin" style="left:21%;top:29%" onclick="tp(this)">
+            <div class="pin-dot"></div>
+            <div class="tip">
+              <span class="tip-flag">🇺🇸</span>
+              <div class="tip-co">United States</div>
+              <div class="tip-th">Hustle</div>
+              <div class="tip-tx">Knocked doors in cities I'd never heard of. <b>No almost always means not yet.</b></div>
+            </div>
+          </div>
+          <!-- Japan 89%,21% flip -->
+          <div class="map-pin flip" style="left:89%;top:21%" onclick="tp(this)">
+            <div class="pin-dot"></div>
+            <div class="tip">
+              <span class="tip-flag">🇯🇵</span>
+              <div class="tip-co">Japan · Tokyo</div>
+              <div class="tip-th">Precision</div>
+              <div class="tip-tx">Where I learned to <b>listen more than I speak.</b> Silence is where real understanding lives.</div>
+            </div>
+          </div>
+          <!-- India current 72%,40% -->
+          <div class="map-pin curr" style="left:72%;top:40%" onclick="tp(this)">
+            <div class="pin-dot"></div>
+            <div class="tip">
+              <span class="tip-flag">🇮🇳</span>
+              <div class="tip-co">India · Hyderabad</div>
+              <div class="tip-th">Ambition ← right now</div>
+              <div class="tip-tx">Where ambition is the baseline. <b>Scale changes how you think about everything.</b></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-legend">
+          <div class="leg"><div class="leg-dot" style="background:#c8a96a"></div><span class="leg-lbl">Past chapters</span></div>
+          <div class="leg"><div class="leg-dot" style="background:#95d5b2"></div><span class="leg-lbl">Current: Hyderabad</span></div>
+          <span class="leg-hint">Click pins to explore →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ ABOUT ══ -->
+<section id="about" class="section-wrap">
+  <div class="about-grid">
+    <div>
+      <div class="sec-eyebrow">About Me</div>
+      <h2 class="sec-title">Selling ideas,<br><em>building bridges.</em></h2>
+      <p class="bio-p">I'm a <b>Business and Cognitive Science student at Minerva University</b> — a program built on the belief that the best way to learn about the world is to live in it. So far I've taken that seriously: six countries, four languages, and enough cultural whiplash to make me very good at <b>reading a room</b>.</p>
+      <p class="bio-p">Professionally, I work at the intersection of <b>sales, community, and human behavior</b> — building pipeline at Forbes, designing gamified features at Adobe, or organizing events that bring 100+ professionals together in cities I moved to two months ago. I'm drawn to work where the goal is to make someone say yes to something they didn't know they needed.</p>
+      <p class="bio-p">Off the clock, I train on aerial silks — which teaches you that <b>falling gracefully is a skill worth having.</b> I also genuinely believe education is the highest-leverage industry in the world, and I intend to spend my career proving it.</p>
+    </div>
+    <div class="about-aside">
+      <div class="chip-label">Genuinely passionate about</div>
+      <div class="chips">
+        <span class="chip c">Business Dev</span>
+        <span class="chip c">Community Building</span>
+        <span class="chip c">Behavioral Science</span>
+        <span class="chip c">EdTech</span>
+        <span class="chip c">Global Immersion</span>
+        <span class="chip c">Language Learning</span>
+      </div>
+      <div class="chip-label" style="margin-top:8px">Also into</div>
+      <div class="chips">
+        <span class="chip">Aerial silks</span>
+        <span class="chip">Competitive dance</span>
+        <span class="chip">Cognitive science</span>
+        <span class="chip">Design thinking</span>
+        <span class="chip">Solo travel</span>
+      </div>
+      <div class="aside-quote">
+        <p class="aq-text">"I'm drawn to work where the goal is to make someone say yes to something they didn't know they <em>needed.</em>"</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ STATS ══ -->
+<section id="stats">
+  <div class="stats-grid">
+    <div class="stat-cell">
+      <div class="s-num" data-to="6">0</div>
+      <div class="s-lbl">Countries lived &amp; worked in</div>
+      <div class="s-note">Ukraine → Canada → Costa Rica → US → Japan → India</div>
+    </div>
+    <div class="stat-cell">
+      <div class="s-num" data-to="4">0</div>
+      <div class="s-lbl">Languages spoken</div>
+      <div class="s-note">English, Ukrainian, Spanish, Polish</div>
+    </div>
+    <div class="stat-cell">
+      <div class="s-num" data-to="4">0</div>
+      <div class="s-lbl">Sales &amp; BD roles</div>
+      <div class="s-note">Southwestern, Forbes, Adobe, StartEd — each one harder</div>
+    </div>
+    <div class="stat-cell">
+      <div class="s-num" data-sfx="+">100</div>
+      <div class="s-lbl">Professionals connected monthly</div>
+      <div class="s-note">Via Prjctr events across Hyderabad, Kyiv &amp; beyond</div>
+    </div>
+    <div class="stat-cell">
+      <div class="s-num" data-sfx="%">10</div>
+      <div class="s-lbl">Top at Southwestern</div>
+      <div class="s-note">Out of 676 reps — knocking doors in cities I'd never heard of</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EXPERIENCE ══ -->
+<section id="experience">
+  <div class="exp-section-header section-wrap" style="padding-bottom:0">
+    <div class="sec-eyebrow">Experience</div>
+    <h2 class="sec-title">Where I've built,<br><em>sold, and left a mark.</em></h2>
+    <p style="font-size:15px;color:var(--muted);max-width:520px;line-height:1.75;margin-bottom:32px">From knocking doors in Canada to designing features for Adobe — every role taught me something different about how people make decisions. Click any card to see the full story.</p>
+  </div>
+
+  <div class="filter-bar">
+    <button class="fb act" onclick="fil('all',this)">All roles</button>
+    <button class="fb" onclick="fil('sales',this)">Sales</button>
+    <button class="fb" onclick="fil('research',this)">Research</button>
+    <button class="fb" onclick="fil('product',this)">Product</button>
+    <button class="fb" onclick="fil('community',this)">Community</button>
+    <button class="fb" onclick="fil('education',this)">Education</button>
+  </div>
+
+  <div class="exp-grid">
+
+    <!-- STARTED -->
+    <div class="exp-card" data-tags="sales">
+      <div class="card-trigger" onclick="tog(this.closest('.exp-card'))">
+        <div class="ct-left">
+          <div class="co-row">
+            <div class="co-badge b-started">St</div>
+            <span class="co-name">StartEd</span>
+            <a class="co-ext" href="https://www.started.com/" target="_blank" onclick="s(event)">↗ started.com</a>
+            <span class="type-pill tp-sales">Sales</span>
+          </div>
+          <div class="card-title">Business Development Representative</div>
+          <div class="card-meta"><span>New York, USA</span><span class="meta-sep">·</span><span>Aug 2025 – Dec 2025</span></div>
+        </div>
+        <div class="ct-right">
+          <div class="impact-box"><div class="imp-num">127%</div><div class="imp-lbl">Sales ROI achieved</div></div>
+          <div class="expand-hint"><span>See full story</span><div class="expand-icon">+</div></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="body-inner">
+          <div class="b-section">
+            <div class="bs-label">The challenge</div>
+            <div class="bs-text">StartEd needed to grow its pipeline in NYC's competitive edtech ecosystem — converting awareness into qualified partnerships with education organizations and investors, with no established outreach playbook.</div>
+          </div>
+          <div class="b-section">
+            <div class="bs-label">What I built</div>
+            <div class="bs-text">Executed a full-cycle multi-channel outreach strategy across events, webinars, and targeted campaigns. Managed a <b>1,618-prospect pipeline in HubSpot CRM</b>, translating customer insights into pitch narratives used in external presentations and partnership discussions.</div>
+          </div>
+          <div class="b-section" style="grid-column:1/-1">
+            <div class="bs-label">Impact</div>
+            <ul class="impact-ul">
+              <li><b>127% sales ROI</b> generated through multi-channel outreach across events, webinars, and targeted campaigns</li>
+              <li>Managed <b>1,618-prospect pipeline</b> in HubSpot CRM, converting engagement into 211 sales-qualified leads</li>
+              <li>Achieved a <b>21% close rate</b> — above industry average for early-stage edtech partnerships</li>
+              <li>Helped organize <b>New York EdTech Week</b> — bringing together investors, founders, and educators across the ecosystem</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="sk-chip">HubSpot CRM</span><span class="sk-chip">Pipeline management</span><span class="sk-chip">Multi-channel outreach</span><span class="sk-chip">EdTech</span><span class="sk-chip">Sales ops</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORBES -->
+    <div class="exp-card" data-tags="research">
+      <div class="card-trigger" onclick="tog(this.closest('.exp-card'))">
+        <div class="ct-left">
+          <div class="co-row">
+            <div class="co-badge b-forbes">F</div>
+            <span class="co-name">Forbes Ukraine</span>
+            <a class="co-ext" href="https://forbes.ua/ratings/250-malikh-i-serednikh-kompaniy-2025-roku-gen-zrostannya-21072025-31063" target="_blank" onclick="s(event)">↗ NEXT 250 list</a>
+            <span class="type-pill tp-research">Research</span>
+          </div>
+          <div class="card-title">Market Research Analyst Intern</div>
+          <div class="card-meta"><span>Kyiv, Ukraine</span><span class="meta-sep">·</span><span>May 2025 – Aug 2025</span></div>
+        </div>
+        <div class="ct-right">
+          <div class="impact-box"><div class="imp-num">800+</div><div class="imp-lbl">Companies analyzed</div></div>
+          <div class="expand-hint"><span>See full story</span><div class="expand-icon">+</div></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="body-inner">
+          <div class="b-section">
+            <div class="bs-label">The work</div>
+            <div class="bs-text">Conducted competitive landscape analysis across <b>800+ companies in 15+ industries</b> representing $675M+ in combined revenue. Used market segmentation, financial benchmarking, and trend analysis to identify high-growth sectors for Forbes Ukraine's editorial and business strategy decisions.</div>
+          </div>
+          <div class="b-section">
+            <div class="bs-label">Published contributions</div>
+            <div class="bs-text">
+              <b><a href="https://forbes.ua/ratings/250-malikh-i-serednikh-kompaniy-2025-roku-gen-zrostannya-21072025-31063" target="_blank" onclick="s(event)">Forbes NEXT 250</a></b> — Ukraine's top 250 SMEs annual ranking<br><br>
+              <b>Forbes 30 Under 30</b> — research support for candidate profiling and evaluation<br><br>
+              <b>Most Promising Companies for Veterans</b> — market research and company profiling<br><br>
+              Actively involved in writing and editing <b>2 published articles</b> for Forbes Ukraine editorial team
+            </div>
+          </div>
+          <div class="b-section" style="grid-column:1/-1">
+            <div class="bs-label">Impact</div>
+            <ul class="impact-ul">
+              <li>Synthesized market data across <b>15+ industries and $675M+ in revenue</b> into clear strategic reports</li>
+              <li>Contributed research to three major Forbes Ukraine rankings and two published editorial articles</li>
+              <li>Identified high-growth sectors using financial benchmarking, market segmentation, and trend analysis</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="sk-chip">Market research</span><span class="sk-chip">Financial benchmarking</span><span class="sk-chip">Competitive analysis</span><span class="sk-chip">Data synthesis</span><span class="sk-chip">Editorial writing</span>
+          <a class="view-btn" href="https://forbes.ua/ratings/250-malikh-i-serednikh-kompaniy-2025-roku-gen-zrostannya-21072025-31063" target="_blank" onclick="s(event)">View NEXT 250 →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADOBE -->
+    <div class="exp-card" data-tags="product">
+      <div class="card-trigger" onclick="tog(this.closest('.exp-card'))">
+        <div class="ct-left">
+          <div class="co-row">
+            <div class="co-badge b-adobe">Ai</div>
+            <span class="co-name">Adobe</span>
+            <a class="co-ext" href="https://adobe-life-app.vercel.app/dashboard" target="_blank" onclick="s(event)">↗ Live prototype</a>
+            <span class="type-pill tp-product">Product</span>
+          </div>
+          <div class="card-title">Product Development Consultant</div>
+          <div class="card-meta"><span>San Francisco, USA</span><span class="meta-sep">·</span><span>Sep 2024 – May 2025</span></div>
+        </div>
+        <div class="ct-right">
+          <div class="impact-box"><div class="imp-num">ALA</div><div class="imp-lbl">Roadmap influenced</div></div>
+          <div class="expand-hint"><span>See full story</span><div class="expand-icon">+</div></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="body-inner">
+          <div class="b-section">
+            <div class="bs-label">The challenge</div>
+            <div class="bs-text">Adobe's hybrid workforce was losing the spontaneous belonging of in-person work. The Adobe Life App was <b>underutilized</b> — employees used it to book desks, not build community. My team was brought in to design features that could sustainably change employee engagement behavior across 6 global office locations.</div>
+          </div>
+          <div class="b-section">
+            <div class="bs-label">What I designed</div>
+            <div class="bs-text">Co-designed two gamified challenge systems grounded in <b>ethical gamification theory</b> and behavioral science — <b>Lunch Break Leap</b> (movement + social connection) and <b>Knowledge Nexus</b> (mentorship + cross-team learning). Applied intrinsic vs. extrinsic motivation research to ensure sustainable engagement rather than shallow reward loops.</div>
+          </div>
+          <div class="b-section" style="grid-column:1/-1">
+            <div class="bs-label">Impact</div>
+            <ul class="impact-ul">
+              <li>Delivered <b>Figma prototype + video demo</b> to Adobe's Civic Partner team</li>
+              <li>Concept selected to <b>directly influence Adobe Life App product roadmap</b></li>
+              <li>Conducted user research and competitive benchmarking to identify engagement drivers</li>
+              <li><a href="https://adobe-life-app.vercel.app/dashboard" target="_blank" onclick="s(event)">View the live prototype at adobe-life-app.vercel.app →</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="sk-chip">Behavioral design</span><span class="sk-chip">User research</span><span class="sk-chip">Ethical gamification</span><span class="sk-chip">Figma</span><span class="sk-chip">Design thinking</span>
+          <a class="view-btn" href="https://adobe-life-app.vercel.app/dashboard" target="_blank" onclick="s(event)">View prototype →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOUTHWESTERN -->
+    <div class="exp-card" data-tags="sales">
+      <div class="card-trigger" onclick="tog(this.closest('.exp-card'))">
+        <div class="ct-left">
+          <div class="co-row">
+            <div class="co-badge b-sw">SW</div>
+            <span class="co-name">Southwestern Advantage</span>
+            <span class="type-pill tp-sales">Sales</span>
+          </div>
+          <div class="card-title">Independent Sales Representative</div>
+          <div class="card-meta"><span>Canada</span><span class="meta-sep">·</span><span>Feb 2023 – Sep 2023</span></div>
+        </div>
+        <div class="ct-right">
+          <div class="impact-box"><div class="imp-num">Top 10%</div><div class="imp-lbl">of 676 reps · $59K revenue</div></div>
+          <div class="expand-hint"><span>See full story</span><div class="expand-icon">+</div></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="body-inner">
+          <div class="b-section">
+            <div class="bs-label">The real school of sales</div>
+            <div class="bs-text">Relocated to Canada independently and built a sales territory from zero — no warm leads, no existing network, no support structure. Operated as a <b>fully independent business owner</b>: responsible for every part of the operation from prospecting and pitching through negotiating, closing, and post-sale relationship management. This is where I learned what "no" actually means — and how rarely it's permanent.</div>
+          </div>
+          <div class="b-section">
+            <div class="bs-label">Personal business operations</div>
+            <div class="bs-text">Managed all daily business operations independently: <b>pipeline tracking, performance metrics, inventory management, cash flow, and customer follow-up systems</b>. Delivered fully customized sales presentations to 200+ families, refining messaging in real time based on customer feedback at every door.</div>
+          </div>
+          <div class="b-section" style="grid-column:1/-1">
+            <div class="bs-label">Impact</div>
+            <ul class="impact-ul">
+              <li>Ranked <b>Top 10% of 676 sales representatives</b> company-wide — competing as a solo independent operator</li>
+              <li>Generated <b>$59,000 in revenue</b> through direct sales and relationship-driven outreach</li>
+              <li>Delivered customized presentations to <b>200+ families</b>, closing at an above-average conversion rate</li>
+              <li>Built and operated a complete independent sales territory: prospecting, pitching, negotiations, closing, and CRM</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="sk-chip">Direct sales</span><span class="sk-chip">Cold outreach</span><span class="sk-chip">Pipeline tracking</span><span class="sk-chip">Negotiations</span><span class="sk-chip">Independent business ops</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRJCTR -->
+    <div class="exp-card" data-tags="community">
+      <div class="card-trigger" onclick="tog(this.closest('.exp-card'))">
+        <div class="ct-left">
+          <div class="co-row">
+            <div class="co-badge b-prjctr">PR</div>
+            <span class="co-name">Prjctr Global Community</span>
+            <a class="co-ext" href="https://www.meetup.com/projector-global-community/" target="_blank" onclick="s(event)">↗ Community page</a>
+            <span class="type-pill tp-community">Community</span>
+          </div>
+          <div class="card-title">Community Ambassador &amp; Events Organizer</div>
+          <div class="card-meta"><span>Tokyo, Japan → Hyderabad, India</span><span class="meta-sep">·</span><span>Ongoing</span></div>
+        </div>
+        <div class="ct-right">
+          <div class="impact-box"><div class="imp-num">100+</div><div class="imp-lbl">Professionals connected monthly</div></div>
+          <div class="expand-hint"><span>See full story</span><div class="expand-icon">+</div></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="body-inner">
+          <div class="b-section">
+            <div class="bs-label">The mission</div>
+            <div class="bs-text">Projector Institute's global community connects design, product, marketing, and tech professionals at the mid-to-senior level. As Community Ambassador, I organize monthly events in cities I'm rotating through — <b>building professional ecosystems from scratch in markets where I have zero existing network.</b> The challenge is the same as cold sales: show up as a stranger, leave as someone they trust.</div>
+          </div>
+          <div class="b-section">
+            <div class="bs-label">Tokyo → Hyderabad</div>
+            <div class="bs-text">Organized recurring events during my <b>4-month Minerva rotation in Tokyo</b> and continued in <b>Hyderabad, India</b>. Current flagship project: <b>"AI + Design: Human Judgment in Automated Systems"</b> — a practitioner panel with confirmed speakers from Think Design, T-Hub, and WeHUB. Secured venue support from two of Hyderabad's leading innovation hubs.</div>
+          </div>
+          <div class="b-section" style="grid-column:1/-1">
+            <div class="bs-label">Impact</div>
+            <ul class="impact-ul">
+              <li>Connected <b>100+ mid-to-senior professionals</b> across design, product, and tech industries monthly</li>
+              <li>Built professional networks <b>from zero in two foreign cities</b> — Tokyo and Hyderabad — with no pre-existing contacts</li>
+              <li>Secured venue partnerships with <b>T-Hub and WeHUB</b> — Hyderabad's leading startup and women-in-tech hubs</li>
+              <li>Organized and facilitated a <b>design thinking workshop at WeHUB</b> for founders and startup operators</li>
+              <li>Maintained consistent monthly programming across <b>3 continents</b> while rotating as a full-time student</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="sk-chip">Community building</span><span class="sk-chip">Event production</span><span class="sk-chip">Stakeholder outreach</span><span class="sk-chip">Cold networking</span><span class="sk-chip">Partnership development</span>
+          <a class="view-btn" href="https://www.meetup.com/projector-global-community/" target="_blank" onclick="s(event)">View community →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- NASA -->
+    <div class="exp-card" data-tags="education">
+      <div class="card-trigger" onclick="tog(this.closest('.exp-card'))">
+        <div class="ct-left">
+          <div class="co-row">
+            <div class="co-badge b-nasa">NA</div>
+            <span class="co-name">NASA Space Apps Challenge</span>
+            <span class="type-pill tp-education">Education</span>
+          </div>
+          <div class="card-title">Curriculum Developer — BeyondSight Project</div>
+          <div class="card-meta"><span>Mountain View, CA</span><span class="meta-sep">·</span><span>Oct 2024</span></div>
+        </div>
+        <div class="ct-right">
+          <div class="impact-box"><div class="imp-num">1st</div><div class="imp-lbl">Regional · Global finalist</div></div>
+          <div class="expand-hint"><span>See full story</span><div class="expand-icon">+</div></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="body-inner">
+          <div class="b-section">
+            <div class="bs-label">The project</div>
+            <div class="bs-text"><b>BeyondSight</b> — an adaptive, interdisciplinary curriculum designed to empower visually impaired students to explore exoplanets through multisensory engagement. Built at the NASA Space Apps Challenge hackathon in Mountain View, CA. The core challenge: make NASA's exoplanet research accessible through sound, touch, movement, and spatial reasoning.</div>
+          </div>
+          <div class="b-section">
+            <div class="bs-label">My contribution</div>
+            <div class="bs-text">Designed the core curriculum structure integrating NASA exoplanet data with adaptive learning techniques across science, math, and art. Developed <b>multisensory lesson plans</b> tailored specifically for visually impaired students. <b>Led the project demonstration at the Mountain View event</b> — presenting to judges and securing the regional win.</div>
+          </div>
+          <div class="b-section" style="grid-column:1/-1">
+            <div class="bs-label">Impact</div>
+            <ul class="impact-ul">
+              <li><b>1st place — Regional competition</b> at NASA Space Apps Challenge, Mountain View, CA</li>
+              <li><b>Nominated for global finals</b> of the NASA Space Apps Challenge</li>
+              <li>Developed a replicable curriculum framework integrating NASA exoplanet data for visually impaired learners</li>
+              <li>Prototype: <a href="https://drive.google.com/file/d/1hMSbDLtYqG0jYabLqvWVdh6S8VLYYpIG/view" target="_blank" onclick="s(event)">View demo video</a> · <a href="https://www.figma.com/design/0swRzLDWHgHb9gTAweCCH7/Heckathon?node-id=0-1&p=f" target="_blank" onclick="s(event)">View Figma design</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="card-footer">
+          <span class="sk-chip">Curriculum development</span><span class="sk-chip">Adaptive learning design</span><span class="sk-chip">NASA data integration</span><span class="sk-chip">Figma</span><span class="sk-chip">Presentation</span>
+          <a class="view-btn" href="https://drive.google.com/file/d/1hMSbDLtYqG0jYabLqvWVdh6S8VLYYpIG/view" target="_blank" onclick="s(event)">View prototype →</a>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /exp-grid -->
+
+  <!-- Skills -->
+  <div class="skills-wrap">
+    <h2 class="sk-head">Skills &amp; tools</h2>
+    <div class="sk-grid">
+      <div class="sk-block">
+        <div class="sk-lbl">Technical tools</div>
+        <div class="sk-tags">
+          <span class="sk-tag">HubSpot CRM</span><span class="sk-tag">Salesforce</span>
+          <span class="sk-tag">Media &amp; Market Analysis</span><span class="sk-tag">Stakeholder Research</span>
+          <span class="sk-tag">Google Workspace</span><span class="sk-tag">Data Analysis</span>
+          <span class="sk-tag">Canva</span><span class="sk-tag">Figma</span>
+        </div>
+      </div>
+      <div class="sk-block">
+        <div class="sk-lbl">Core competencies</div>
+        <div class="sk-tags">
+          <span class="sk-tag">Sales &amp; Sales Operations</span><span class="sk-tag">Customer Selling Process</span>
+          <span class="sk-tag">Business &amp; Financial Acumen</span><span class="sk-tag">Performance Metrics</span>
+          <span class="sk-tag">Strategic Execution</span><span class="sk-tag">Relationship Building</span>
+          <span class="sk-tag">Stakeholder Communication</span>
+        </div>
+      </div>
+      <div class="sk-block">
+        <div class="sk-lbl">Languages</div>
+        <div class="sk-tags">
+          <span class="lang-tag">🇬🇧 English</span><span class="lang-tag">🇺🇦 Ukrainian</span>
+          <span class="lang-tag">🇪🇸 Spanish</span><span class="lang-tag">🇵🇱 Polish</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ LET'S CONNECT ══ -->
+<section id="connect">
+  <div class="connect-left">
+    <div class="sec-eyebrow" style="color:var(--mint)">Let's Connect</div>
+    <h2 class="connect-title">Open to BD<br>&amp; <em>sales roles.</em></h2>
+    <p class="connect-sub">If you're building something in education, sales, or business development and want someone who brings cross-cultural fluency, genuine hustle, and a track record across four companies — I'd love to hear from you.</p>
+  </div>
+  <div class="connect-right">
+    <a class="connect-card" href="mailto:iryna.snytiuk@uni.minerva.edu">
+      <div>
+        <div class="cc-label">Email</div>
+        <div class="cc-val">iryna.snytiuk@uni.minerva.edu</div>
+      </div>
+      <span class="cc-arrow">→</span>
+    </a>
+    <a class="connect-card" href="https://linkedin.com/in/irynasnytiuk" target="_blank">
+      <div>
+        <div class="cc-label">LinkedIn</div>
+        <div class="cc-val">linkedin.com/in/irynasnytiuk</div>
+      </div>
+      <span class="cc-arrow">↗</span>
+    </a>
+    <a class="connect-card" href="https://adobe-life-app.vercel.app/dashboard" target="_blank">
+      <div>
+        <div class="cc-label">Featured project</div>
+        <div class="cc-val">Adobe Life App prototype</div>
+      </div>
+      <span class="cc-arrow">↗</span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <span class="ft-name">Iryna Snytiuk</span>
+  <span class="ft-note">Ukraine → Canada → Costa Rica → US → Japan → India · Minerva University '26</span>
+</footer>
+
+<script>
+/* Globe pins */
+let cur=null;
+function tp(el){
+  if(cur&&cur!==el)cur.classList.remove('open');
+  el.classList.toggle('open');
+  cur=el.classList.contains('open')?el:null;
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.map-pin')){
+    document.querySelectorAll('.map-pin.open').forEach(p=>p.classList.remove('open'));
+    cur=null;
+  }},{passive:true});
+
+/* Experience cards */
+function tog(card){
+  const wasOpen=card.classList.contains('open');
+  document.querySelectorAll('.exp-card').forEach(c=>c.classList.remove('open'));
+  if(!wasOpen)card.classList.add('open');
+}
+function s(ev){ev.stopPropagation();}
+function fil(tag,btn){
+  document.querySelectorAll('.fb').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');
+  document.querySelectorAll('.exp-card').forEach(c=>{
+    if(tag==='all'||c.dataset.tags===tag)c.classList.remove('hidden');
+    else c.classList.add('hidden');
+  });
+}
+
+/* Stats count-up */
+let fired=false;
+const statsEl=document.getElementById('stats');
+new IntersectionObserver(ents=>{
+  ents.forEach(e=>{
+    if(e.isIntersecting&&!fired){
+      fired=true;
+      document.querySelectorAll('.s-num[data-to]').forEach((el,i)=>{
+        const to=parseInt(el.dataset.to),sfx=el.dataset.sfx||'';
+        let step=0,steps=44;
+        setTimeout(()=>{
+          const t=setInterval(()=>{
+            step++;
+            el.textContent=Math.min(Math.round(to*step/steps),to)+sfx;
+            if(step>=steps)clearInterval(t);
+          },1600/steps);
+        },i*100);
+      });
+    }
+  });
+},{threshold:0.4}).observe(statsEl);
+</script>
+</body>
+</html>
