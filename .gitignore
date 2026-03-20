@@ -1,0 +1,30 @@
+# System files
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+
+# IDE & Editor files
+.vscode/
+.claude/
+*.log
+.env
+.env.local
+
+# Backup files
+**/final vesion.html
+**/Iryna Snytiuk Website*.html
+
+# Screenshots & temp files
+Screenshot*.png
+*.pdf
+*.tmp
+
+# Node modules (if using any)
+node_modules/
+dist/
+build/
+
+# Dependencies
+package-lock.json
+yarn.lock
