@@ -38,7 +38,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(248,244,238,
 
 /* Globe */
 .globe-label{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--fmid);font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.map-box{background:var(--forest);border-radius:12px;padding:18px 18px 12px}
+.map-box{background:var(--forest);border-radius:12px;padding:18px 18px 12px;max-width:500px}
 .map-wrap{position:relative;width:100%;padding-top:47%;border-radius:8px;overflow:visible}
 .map-svg{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:8px;overflow:hidden}
 
@@ -60,7 +60,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(248,244,238,
 .map-pin.flip .tip{left:auto;right:-10px;transform:translateY(6px)}
 .map-pin.flip.open .tip{transform:translateY(0)}
 .map-pin.flip .tip::after{left:auto;right:20px;transform:none}
-.map-legend{margin-top:10px;display:flex;gap:16px;align-items:center}
+.map-legend{display:none}
 .leg{display:flex;align-items:center;gap:5px}
 .leg-dot{width:7px;height:7px;border-radius:50%}
 .leg-lbl{font-size:10px;color:rgba(255,255,255,0.45)}
@@ -218,13 +218,12 @@ footer{background:#0f2418;padding:28px 60px;display:flex;justify-content:space-b
 <!-- ══ HERO ══ -->
 <section id="home">
   <div class="hero-photo-wrap">
-    <!-- Replace src with your photo file path -->
-    <div class="hero-photo">
-      <img src="iryna_photo.jpg" alt="Iryna Snytiuk"
-           onerror="this.parentElement.style.background='#2d6a4f'"/>
+      <!-- Standing photo -->
+      <div class="hero-photo">
+        <img src="standing.png" alt="Iryna Snytiuk"
+             onerror="this.parentElement.style.background='#2d6a4f'"/>
+      </div>
     </div>
-    <div class="hero-location">Currently · Hyderabad, India</div>
-  </div>
 
   <div class="hero-text">
     <div class="hero-eyebrow">Business &amp; Cognitive Science · Minerva University '26</div>
@@ -233,6 +232,11 @@ footer{background:#0f2418;padding:28px 60px;display:flex;justify-content:space-b
       "Six countries taught me the same thing: people buy from people they trust.
       I just learned to build that trust in <b>six different languages.</b>"
     </p>
+    
+    <div style="font-size:13px;color:var(--muted);line-height:1.8;margin-top:16px">
+      <div style="text-transform:uppercase;letter-spacing:0.1em;color:var(--fmid);font-size:10px;font-weight:500;margin-bottom:8px">4 sales &amp; BD roles</div>
+      <div>Southwestern Advantage · StartEd · Forbes Ukraine · Prjctr Global Community</div>
+    </div>
 
     <div>
       <div class="globe-label">🌍 Six countries · one journey — click the pins</div>
@@ -351,7 +355,7 @@ footer{background:#0f2418;padding:28px 60px;display:flex;justify-content:space-b
       <h2 class="sec-title">Selling ideas,<br><em>building bridges.</em></h2>
       <p class="bio-p">I'm a <b>Business and Cognitive Science student at Minerva University</b> — a program built on the belief that the best way to learn about the world is to live in it. So far I've taken that seriously: six countries, four languages, and enough cultural whiplash to make me very good at <b>reading a room</b>.</p>
       <p class="bio-p">Professionally, I work at the intersection of <b>sales, community, and human behavior</b> — building pipeline at Forbes, designing gamified features at Adobe, or organizing events that bring 100+ professionals together in cities I moved to two months ago. I'm drawn to work where the goal is to make someone say yes to something they didn't know they needed.</p>
-      <p class="bio-p">Off the clock, I train on aerial silks — which teaches you that <b>falling gracefully is a skill worth having.</b> I also genuinely believe education is the highest-leverage industry in the world, and I intend to spend my career proving it.</p>
+      <p class="bio-p">Off the clock, I train on aerial silks — which teaches you that <b>falling gracefully is a skill worth having.</b></p>
     </div>
     <div class="about-aside">
       <div class="chip-label">Genuinely passionate about</div>
@@ -400,7 +404,7 @@ footer{background:#0f2418;padding:28px 60px;display:flex;justify-content:space-b
     </div>
     <div class="stat-cell">
       <div class="s-num" data-sfx="+">100</div>
-      <div class="s-lbl">Professionals connected monthly</div>
+      <div class="s-lbl">Connected professionals monthly</div>
       <div class="s-note">Via Prjctr events across Hyderabad, Kyiv &amp; beyond</div>
     </div>
     <div class="stat-cell">
@@ -413,7 +417,7 @@ footer{background:#0f2418;padding:28px 60px;display:flex;justify-content:space-b
 
 <!-- ══ EXPERIENCE ══ -->
 <section id="experience">
-  <div class="exp-section-header section-wrap" style="padding-bottom:0">
+  <div class="exp-section-header section-wrap" style="padding-bottom:0;background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%23F8F4EE" width="1200" height="400"/><image href="pitching.jpg" x="0" y="0" width="1200" height="400" preserveAspectRatio="xMidYMid slice" opacity="0.3"/></svg>') no-repeat center/cover;">
     <div class="sec-eyebrow">Experience</div>
     <h2 class="sec-title">Where I've built,<br><em>sold, and left a mark.</em></h2>
     <p style="font-size:15px;color:var(--muted);max-width:520px;line-height:1.75;margin-bottom:32px">From knocking doors in Canada to designing features for Adobe — every role taught me something different about how people make decisions. Click any card to see the full story.</p>
@@ -441,7 +445,7 @@ footer{background:#0f2418;padding:28px 60px;display:flex;justify-content:space-b
             <span class="type-pill tp-sales">Sales</span>
           </div>
           <div class="card-title">Business Development Representative</div>
-          <div class="card-meta"><span>New York, USA</span><span class="meta-sep">·</span><span>Aug 2025 – Dec 2025</span></div>
+          <div class="card-meta"><span>New York, USA</span><span class="meta-sep">·</span><span>Aug 2025 – Dec 2025</span><span class="meta-sep">·</span><span>Minerva rotation</span></div>
         </div>
         <div class="ct-right">
           <div class="impact-box"><div class="imp-num">127%</div><div class="imp-lbl">Sales ROI achieved</div></div>
@@ -578,7 +582,7 @@ footer{background:#0f2418;padding:28px 60px;display:flex;justify-content:space-b
             <span class="type-pill tp-sales">Sales</span>
           </div>
           <div class="card-title">Independent Sales Representative</div>
-          <div class="card-meta"><span>Canada</span><span class="meta-sep">·</span><span>Feb 2023 – Sep 2023</span></div>
+          <div class="card-meta"><span>Canada</span><span class="meta-sep">·</span><span>Feb 2023 – Sep 2023</span><span class="meta-sep">·</span><span>First entry to sales</span></div>
         </div>
         <div class="ct-right">
           <div class="impact-box"><div class="imp-num">Top 10%</div><div class="imp-lbl">of 676 reps · $59K revenue</div></div>
@@ -704,28 +708,26 @@ footer{background:#0f2418;padding:28px 60px;display:flex;justify-content:space-b
   </div><!-- /exp-grid -->
 
   <!-- Skills -->
-  <div class="skills-wrap">
+  <div class="skills-wrap" style="padding:60px 60px;background:var(--white);border-top:2px solid var(--forest);max-width:1000px;margin:0 auto">
     <h2 class="sk-head">Skills &amp; tools</h2>
-    <div class="sk-grid">
-      <div class="sk-block">
-        <div class="sk-lbl">Technical tools</div>
+    <div class="sk-grid" style="grid-template-columns:1fr;gap:32px;background:none">
+      <div class="sk-block" style="background:none;padding:0">
+        <div class="sk-lbl">Technical skills</div>
         <div class="sk-tags">
           <span class="sk-tag">HubSpot CRM</span><span class="sk-tag">Salesforce</span>
-          <span class="sk-tag">Media &amp; Market Analysis</span><span class="sk-tag">Stakeholder Research</span>
-          <span class="sk-tag">Google Workspace</span><span class="sk-tag">Data Analysis</span>
-          <span class="sk-tag">Canva</span><span class="sk-tag">Figma</span>
+          <span class="sk-tag">Market Analysis</span><span class="sk-tag">Stakeholder Research</span>
+          <span class="sk-tag">Data Analysis</span><span class="sk-tag">Figma</span>
         </div>
       </div>
-      <div class="sk-block">
+      <div class="sk-block" style="background:none;padding:0">
         <div class="sk-lbl">Core competencies</div>
         <div class="sk-tags">
-          <span class="sk-tag">Sales &amp; Sales Operations</span><span class="sk-tag">Customer Selling Process</span>
-          <span class="sk-tag">Business &amp; Financial Acumen</span><span class="sk-tag">Performance Metrics</span>
-          <span class="sk-tag">Strategic Execution</span><span class="sk-tag">Relationship Building</span>
-          <span class="sk-tag">Stakeholder Communication</span>
+          <span class="sk-tag">Sales &amp; BD</span><span class="sk-tag">Community Building</span>
+          <span class="sk-tag">Business Acumen</span><span class="sk-tag">Strategic Execution</span>
+          <span class="sk-tag">Relationship Building</span><span class="sk-tag">Performance Metrics</span>
         </div>
       </div>
-      <div class="sk-block">
+      <div class="sk-block" style="background:none;padding:0">
         <div class="sk-lbl">Languages</div>
         <div class="sk-tags">
           <span class="lang-tag">🇬🇧 English</span><span class="lang-tag">🇺🇦 Ukrainian</span>
@@ -770,7 +772,7 @@ footer{background:#0f2418;padding:28px 60px;display:flex;justify-content:space-b
 
 <footer>
   <span class="ft-name">Iryna Snytiuk</span>
-  <span class="ft-note">Ukraine → Canada → Costa Rica → US → Japan → India · Minerva University '26</span>
+  <span class="ft-note">6 countries lived · 4 languages spoken · Minerva University '26</span>
 </footer>
 
 <script>
