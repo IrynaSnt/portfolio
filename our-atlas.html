@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Atlas — For Lottie</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,500&family=Lato:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <style>
+    /* ── Reset & tokens ───────────────────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --gold:       #c9a84c;
+      --gold-light: #e4c97a;
+      --gold-dim:   #a07830;
+      --bg:         #1c1916;
+      --bg-card:    #22201a;
+      --text:       #f0e8d8;
+      --text-muted: #8a7860;
+      --border:     rgba(201, 168, 76, 0.18);
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Lato', sans-serif;
+    }
+
+    /* ── Film-grain overlay ───────────────────────────────────────────── */
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      pointer-events: none;
+      z-index: 9998;
+      opacity: 0.042;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22256%22 height=%22256%22%3E%3Cfilter id=%22f%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.88%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22256%22 height=%22256%22 filter=%22url(%23f)%22/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+    }
+
+    /* ── Map ──────────────────────────────────────────────────────────── */
+    #map {
+      width: 100vw; height: 100vh;
+    }
+
+    /* Warm-vintage tile toning */
+    .leaflet-tile {
+      filter: sepia(38%) saturate(0.72) brightness(0.86) contrast(1.07);
+    }
+
+    /* Map edge vignette */
+    .vignette {
+      position: fixed; inset: 0;
+      pointer-events: none;
+      z-index: 40;
+      background: radial-gradient(ellipse 80% 75% at 50% 52%, transparent 50%, rgba(28,25,22,0.6) 100%);
+    }
+
+    /* Leaflet controls */
+    .leaflet-control-attribution {
+      background: rgba(20, 17, 13, 0.78) !important;
+      color: var(--text-muted) !important;
+      font-size: 9px !important;
+    }
+    .leaflet-control-attribution a { color: var(--gold) !important; }
+
+    .leaflet-control-zoom {
+      border: 1px solid var(--border) !important;
+      border-radius: 4px !important;
+    }
+    .leaflet-control-zoom a {
+      background: rgba(28,25,22,0.92) !important;
+      color: var(--text-muted) !important;
+      border-color: var(--border) !important;
+      transition: all 0.2s;
+    }
+    .leaflet-control-zoom a:hover {
+      background: rgba(201,168,76,0.14) !important;
+      color: var(--gold-light) !important;
+    }
+
+    /* ── Header ───────────────────────────────────────────────────────── */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 200;
+      padding: 28px 40px 70px;
+      background: linear-gradient(to bottom, rgba(28,25,22,0.94) 0%, transparent 100%);
+      pointer-events: none;
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 3.6vw, 2.9rem);
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 0.05em;
+      line-height: 1;
+    }
+
+    .header-rule {
+      width: 38px; height: 1px;
+      background: var(--gold);
+      opacity: 0.45;
+      margin: 10px 0 9px;
+    }
+
+    .header-sub {
+      font-size: clamp(0.68rem, 1.1vw, 0.82rem);
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ── Map hint ─────────────────────────────────────────────────────── */
+    .map-hint {
+      position: fixed;
+      bottom: 26px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 200;
+      font-size: 0.73rem;
+      font-weight: 300;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      pointer-events: none;
+      white-space: nowrap;
+      transition: opacity 0.7s ease;
+    }
+    .map-hint.gone { opacity: 0; }
+
+    /* ── Pin styles ───────────────────────────────────────────────────── */
+    .pin-icon {
+      background: none !important;
+      border: none !important;
+      overflow: visible !important;
+    }
+
+    .pin-wrap {
+      position: relative;
+      width: 44px; height: 44px;
+      cursor: pointer;
+    }
+
+    .pin-pulse {
+      position: absolute; inset: 0;
+      border-radius: 50%;
+      background: rgba(201, 168, 76, 0.22);
+      animation: ppulse 2.6s ease-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes ppulse {
+      0%   { transform: scale(0.45); opacity: 0.9; }
+      100% { transform: scale(1.85); opacity: 0; }
+    }
+
+    .pin-dot {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 15px; height: 15px;
+      margin: -7.5px 0 0 -7.5px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 36% 36%, #f5dc7a, #c9a84c 55%, #885e18);
+      box-shadow: 0 0 0 2.5px rgba(201,168,76,0.38), 0 3px 14px rgba(0,0,0,0.55);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .pin-wrap:hover .pin-dot {
+      transform: scale(1.45);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.6), 0 6px 22px rgba(201,168,76,0.35);
+    }
+    .pin-wrap:hover .pin-pulse {
+      animation-duration: 1.3s;
+    }
+
+    /* ── Card overlay ─────────────────────────────────────────────────── */
+    .card-overlay {
+      position: fixed; inset: 0;
+      z-index: 1000;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .card-overlay.open { pointer-events: auto; }
+
+    .card-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(8,6,4,0.48);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      cursor: pointer;
+    }
+    .card-overlay.open .card-backdrop { opacity: 1; }
+
+    .memory-card {
+      position: relative; z-index: 2;
+      width: min(462px, calc(100vw - 20px));
+      max-height: calc(100vh - 28px);
+      margin: 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow-y: auto;
+      transform: translateX(calc(100% + 50px));
+      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: -30px 0 90px rgba(0,0,0,0.72), 0 0 0 1px rgba(201,168,76,0.08);
+    }
+    .card-overlay.open .memory-card { transform: translateX(0); }
+
+    .memory-card::-webkit-scrollbar { width: 3px; }
+    .memory-card::-webkit-scrollbar-track { background: transparent; }
+    .memory-card::-webkit-scrollbar-thumb {
+      background: rgba(201,168,76,0.28);
+      border-radius: 2px;
+    }
+
+    /* Close button */
+    .card-close {
+      position: absolute; top: 13px; right: 13px; z-index: 10;
+      width: 33px; height: 33px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.22);
+      background: rgba(18,16,12,0.88);
+      color: var(--text-muted);
+      font-size: 13px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s ease;
+      line-height: 1;
+    }
+    .card-close:hover {
+      background: rgba(201,168,76,0.14);
+      border-color: var(--gold);
+      color: var(--gold-light);
+    }
+
+    /* Image area */
+    .card-img-wrap {
+      width: 100%; height: 225px;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+    .card-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-placeholder {
+      width: 100%; height: 225px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 11px;
+      background: linear-gradient(155deg, #2c2619 0%, #181410 100%);
+      border-bottom: 1px solid var(--border);
+    }
+    .card-placeholder .ph-emoji { font-size: 2rem; opacity: 0.38; }
+    .card-placeholder .ph-label {
+      font-size: 0.78rem;
+      font-style: italic;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      opacity: 0.45;
+    }
+
+    /* Card body */
+    .card-body { padding: 28px 30px 34px; }
+
+    .card-country {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.05rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      line-height: 1.05;
+      margin-bottom: 3px;
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-story {
+      font-weight: 300;
+      font-size: 0.92rem;
+      line-height: 1.92;
+      color: var(--text);
+      opacity: 0.83;
+    }
+
+    .card-tail {
+      width: 36px; height: 1px;
+      background: var(--gold);
+      opacity: 0.35;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+<div class="vignette"></div>
+
+<header class="header">
+  <h1>Our Atlas</h1>
+  <div class="header-rule"></div>
+  <p class="header-sub">For Lottie &mdash; Happy Birthday</p>
+</header>
+
+<div class="card-overlay" id="cardOverlay">
+  <div class="card-backdrop" id="cardBackdrop"></div>
+  <div class="memory-card" id="memoryCard">
+    <button class="card-close" id="cardClose" aria-label="Close">&#x2715;</button>
+    <div id="cardImg"></div>
+    <div class="card-body">
+      <div class="card-country" id="cardCountry"></div>
+      <div class="card-title"   id="cardTitle"></div>
+      <p   class="card-story"   id="cardStory"></p>
+      <div class="card-tail"></div>
+    </div>
+  </div>
+</div>
+
+<p class="map-hint" id="mapHint">Click a pin to open a memory</p>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+
+// ── PHOTOS ────────────────────────────────────────────────────────────────────
+// Drop an image path or URL into each slot to replace the placeholder.
+// Example:  "Costa Rica": "photos/costa-rica.jpg"
+const photos = {
+  "Costa Rica": "",
+  "Colombia":   "",
+  "Panama":     "",
+  "Germany":    "",
+  "Poland":     "",
+  "Hungary":    ""
+};
+// ─────────────────────────────────────────────────────────────────────────────
+
+const memories = [
+  {
+    country: "Costa Rica",
+    coords:  [9.7489, -83.7534],
+    title:   "Santa Teresa & UWC",
+    story:   "We met at United World College — a school where 75+ countries live under one roof. My favorite memories are us swimming in the waves of Santa Teresa, studying math together in the library, and going out with your grandparents, Lottie. It was the kind of place that makes you believe the world is smaller and better than it seems."
+  },
+  {
+    country: "Colombia",
+    coords:  [4.7110, -74.0721],
+    title:   "Graduation Trip",
+    story:   "Bogotá, Medellín, Cartagena — our graduation trip. But the memory I keep coming back to: a boat from the islands in Cartagena, and dancing with street musicians who wrote songs for us on the spot. I don't think either of us planned to dance that night. We just did."
+  },
+  {
+    country: "Panama",
+    coords:  [9.4013, -82.2410],
+    title:   "Bocas del Toro",
+    story:   "Bocas del Toro. We snorkeled, played cards in a hostel sitting literally on the water, and took a boat that was slowly filling up — while the guy casually bailed it out with a bucket like that was totally normal. It was. We loved it."
+  },
+  {
+    country: "Germany",
+    coords:  [51.1657, 10.4515],
+    title:   "Your Home",
+    story:   "You showed me your world this time. We were at your house, getting ready for a party — one of those ordinary moments that doesn't feel ordinary at all when you're doing it with the right person."
+  },
+  {
+    country: "Poland",
+    coords:  [52.2297, 21.0122],
+    title:   "Warsaw",
+    story:   "I got to show you my part of the world. We walked through the Royal Gardens, and watched ABBA songs play out on live dancing fountains. Watching you see Warsaw for the first time was one of my favorite things."
+  },
+  {
+    country: "Hungary",
+    coords:  [47.4979, 18.0402],
+    title:   "Budapest",
+    story:   "Budapest under fireworks. The Hungarian Parliament lit up below us, and the sky was doing something genuinely unreasonable. I don't have better words for it — you were there."
+  }
+];
+
+// ── Map init ──────────────────────────────────────────────────────────────────
+const map = L.map('map', {
+  center: [32, -28],
+  zoom: 3,
+  zoomControl: false,
+  attributionControl: true,
+  minZoom: 2,
+  maxZoom: 12
+});
+
+// Warm muted tile layer — CartoDB Voyager
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+  subdomains: 'abcd',
+  maxZoom: 19
+}).addTo(map);
+
+L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+// Fit view to all pins
+map.fitBounds(
+  L.latLngBounds(memories.map(m => m.coords)),
+  { padding: [110, 140], maxZoom: 5 }
+);
+
+// ── Card logic ────────────────────────────────────────────────────────────────
+const overlay       = document.getElementById('cardOverlay');
+const backdrop      = document.getElementById('cardBackdrop');
+const closeBtn      = document.getElementById('cardClose');
+const elCountry     = document.getElementById('cardCountry');
+const elTitle       = document.getElementById('cardTitle');
+const elStory       = document.getElementById('cardStory');
+const elImg         = document.getElementById('cardImg');
+const hint          = document.getElementById('mapHint');
+let   hintGone      = false;
+
+function openCard(mem) {
+  elCountry.textContent = mem.country;
+  elTitle.textContent   = mem.title;
+  elStory.textContent   = mem.story;
+
+  const src = photos[mem.country];
+  elImg.innerHTML = src
+    ? `<div class="card-img-wrap"><img src="${src}" alt="${mem.country}" /></div>`
+    : `<div class="card-placeholder">
+         <span class="ph-emoji">📷</span>
+         <span class="ph-label">photo coming soon</span>
+       </div>`;
+
+  document.getElementById('memoryCard').scrollTop = 0;
+  overlay.classList.add('open');
+
+  if (!hintGone) {
+    hint.classList.add('gone');
+    hintGone = true;
+  }
+}
+
+function closeCard() {
+  overlay.classList.remove('open');
+}
+
+closeBtn.addEventListener('click', closeCard);
+backdrop.addEventListener('click', closeCard);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCard(); });
+
+// ── Pins ──────────────────────────────────────────────────────────────────────
+memories.forEach((mem, i) => {
+  const icon = L.divIcon({
+    html: `<div class="pin-wrap" style="animation-delay:${i * 120}ms">
+             <div class="pin-pulse"></div>
+             <div class="pin-dot"></div>
+           </div>`,
+    className: 'pin-icon',
+    iconSize:   [44, 44],
+    iconAnchor: [22, 22]
+  });
+
+  L.marker(mem.coords, { icon })
+    .addTo(map)
+    .on('click', () => openCard(mem));
+});
+
+</script>
+</body>
+</html>
