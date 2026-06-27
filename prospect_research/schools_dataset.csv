@@ -1,0 +1,51 @@
+school_name,state,enrollment,school_type,has_language_program,has_honors_program,has_stem_program,has_arts_program,median_household_income,travel_club_mentioned,international_baccalaureate,ap_courses_count,district_size,urban_rural,website
+"Westlake High School","TX",2800,Public,True,True,True,True,95000,False,True,22,Large,Suburban,https://westlake.eanes.txed.net
+"Phillips Academy Andover","MA",1150,Private,True,True,True,True,180000,True,False,30,Small,Suburban,https://www.andover.edu
+"Thomas Jefferson High School for Science and Technology","VA",1900,Public,True,True,True,False,145000,True,True,35,Large,Suburban,https://tjhsst.edu
+"Stuyvesant High School","NY",3300,Public,True,True,True,True,85000,False,True,30,Large,Urban,https://stuy.edu
+"New Trier Township High School","IL",4200,Public,True,True,True,True,142000,True,False,28,Large,Suburban,https://newtrier.k12.il.us
+"Grosse Pointe South High School","MI",1700,Public,True,True,False,True,128000,False,False,18,Medium,Suburban,https://gps.k12.mi.us
+"Lexington High School","MA",2400,Public,True,True,True,True,132000,True,False,30,Medium,Suburban,https://lhs.lexingtonma.org
+"Palo Alto High School","CA",1900,Public,True,True,True,True,155000,True,False,27,Medium,Suburban,https://paly.net
+"Walt Whitman High School","MD",2100,Public,True,True,False,True,125000,False,False,20,Medium,Suburban,https://wwhsmd.org
+"Naperville Central High School","IL",2700,Public,True,True,True,True,108000,True,False,24,Large,Suburban,https://nchs.naperville203.org
+"Cherry Hill High School East","NJ",2100,Public,True,True,True,True,98000,False,False,22,Large,Suburban,https://www.chclc.org
+"Millburn High School","NJ",1400,Public,True,True,False,True,195000,True,False,25,Medium,Suburban,https://millburn.org
+"Glenbrook South High School","IL",2500,Public,True,True,True,True,118000,False,False,20,Large,Suburban,https://glenbrook.k12.il.us
+"Latin School of Chicago","IL",1100,Private,True,True,True,True,200000,True,False,28,Small,Urban,https://latinschool.org
+"Georgetown Day School","DC",1020,Private,True,True,False,True,175000,True,False,22,Small,Urban,https://gds.org
+"Wayzata High School","MN",3400,Public,True,True,True,True,112000,False,False,24,Large,Suburban,https://wayzataschools.org
+"Mountain View High School","CA",2200,Public,True,True,True,False,135000,True,False,25,Medium,Suburban,https://mvhs.fuhsd.org
+"BASIS Scottsdale","AZ",700,Charter,False,True,True,False,130000,False,True,30,Small,Suburban,https://basised.com
+"Winchester High School","MA",1200,Public,True,True,False,True,148000,True,False,20,Medium,Suburban,https://winchesterps.org
+"Hinsdale Central High School","IL",2600,Public,True,True,True,True,145000,False,False,24,Large,Suburban,https://hinsdale86.org
+"Culver Academies","IN",800,Private,True,True,False,True,160000,True,False,20,Small,Rural,https://culver.org
+"The Hotchkiss School","CT",600,Private,True,True,False,True,210000,True,False,25,Small,Rural,https://hotchkiss.org
+"Bethesda-Chevy Chase High School","MD",1800,Public,True,True,False,True,138000,False,False,22,Medium,Suburban,https://bcc.mcpsmd.org
+"Evanston Township High School","IL",3100,Public,True,False,False,True,88000,False,False,16,Large,Suburban,https://eths.k12.il.us
+"Ridgewood High School","NJ",1600,Public,True,True,False,True,162000,True,False,23,Medium,Suburban,https://ridgewood.k12.nj.us
+"Greenwich High School","CT",2900,Public,True,True,True,True,152000,True,False,26,Large,Suburban,https://greenwichschools.org
+"Scarsdale High School","NY",1500,Public,True,True,False,True,198000,True,False,26,Small,Suburban,https://scarsdaleschools.org
+"Brookfield Academy","WI",680,Private,True,True,False,True,145000,True,False,18,Small,Suburban,https://brookfieldacademy.org
+"Plano Senior High School","TX",3200,Public,True,True,True,False,92000,False,False,20,Large,Suburban,https://pisd.edu
+"Oak Park and River Forest High School","IL",3200,Public,True,False,True,True,95000,False,False,18,Large,Urban,https://oprfhs.org
+"Westchester Academy for International Studies","TX",1100,Public,True,True,False,False,75000,False,True,20,Medium,Urban,https://houstonisd.org
+"Peddie School","NJ",550,Private,True,True,True,True,185000,True,False,24,Small,Suburban,https://peddie.org
+"Lake Forest High School","IL",1400,Public,True,True,False,True,175000,True,False,22,Small,Suburban,https://lfschools.net
+"Westport's Staples High School","CT",1800,Public,True,True,False,True,165000,True,False,24,Medium,Suburban,https://westportschools.org
+"Palos Verdes Peninsula High School","CA",2000,Public,True,True,False,True,140000,False,False,22,Medium,Suburban,https://pvpusd.net
+"National Cathedral School","DC",450,Private,True,True,False,True,190000,True,False,20,Small,Urban,https://ncs.cathedral.org
+"University High School","CA",980,Private,True,True,True,True,175000,True,False,26,Small,Urban,https://universityhighschool.org
+"Collegiate School","VA",1100,Private,True,True,False,True,168000,True,False,22,Small,Suburban,https://collegiate-va.org
+"Gilman School","MD",870,Private,True,True,False,True,180000,True,False,20,Small,Suburban,https://gilman.edu
+"The Ethel Walker School","CT",250,Private,True,True,False,True,195000,True,False,18,Small,Rural,https://ethelwalker.org
+"Meadowbrook School","MA",320,Private,True,False,False,True,160000,False,False,12,Small,Suburban,https://meadowbrook.org
+"Polytechnic School","CA",860,Private,True,True,True,True,165000,True,False,25,Small,Suburban,https://polytechnicschool.org
+"Canterbury School","CT",380,Private,True,True,False,True,185000,True,False,20,Small,Rural,https://cbury.org
+"Suffield Academy","CT",450,Private,True,True,False,True,178000,True,False,18,Small,Rural,https://suffieldacademy.org
+"Northwest Academy","OR",420,Private,True,True,False,True,115000,False,False,16,Small,Urban,https://northwestacademy.org
+"Germantown Friends School","PA",900,Private,True,True,False,True,148000,True,False,20,Small,Urban,https://germantownfriends.org
+"Sidwell Friends School","DC",1100,Private,True,True,False,True,200000,True,False,25,Small,Urban,https://sidwell.edu
+"St. Albans School","DC",600,Private,True,True,False,True,192000,True,False,22,Small,Urban,https://stalbansschool.org
+"Lakeside School","WA",850,Private,True,True,True,True,178000,True,False,28,Small,Suburban,https://lakesideschool.org
+"Providence Day School","NC",1400,Private,True,True,True,True,155000,True,False,24,Small,Suburban,https://providenceday.org
